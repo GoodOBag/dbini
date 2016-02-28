@@ -1,0 +1,2 @@
+# dbini
+GoodOBag DB initialization
