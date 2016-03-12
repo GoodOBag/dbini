@@ -33,9 +33,8 @@ func main() {
 	_, err = db.Exec("create table purchasetable (id integer not null primary key autoincrement, purchasedate integer not null, item text not null, unit text not null, amount real not null, status integer not null);")
 	checkErr(err) //1, 20160216, apple, ea, 12, 0
 	//status = 0 -> not submitted; status > 0 -> submitted
-	_, err = db.Exec("create table status (indx integer not null, purchaseLastId integer not null, orderLastId integer not null);")
-	checkErr(err) //23, 79, 490
-	//last report was 23rd report; last id in purchase table was 79; last id in order table was 490
+	_, err = db.Exec("create table status (indx integer not null);")
+	checkErr(err) //23
 
 	ini()
 }
@@ -45,8 +44,9 @@ func ini() {
 	checkErr(err)
 	defer db.Close()
 
-	stmt, err := db.Prepare("insert into status(indx, purchaseLastId, orderLastId) values(?,?,?)")
+	stmt, err := db.Prepare("insert into status(indx) values(?)")
 	checkErr(err)
-	_, err = stmt.Exec(0, 0, 0)
+	_, err = stmt.Exec(1) //change 1 to other number if want to start with a different number. Other tables are empty
 	checkErr(err)
+
 }
